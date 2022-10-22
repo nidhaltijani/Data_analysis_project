@@ -107,8 +107,24 @@ SELECT [ProductKey]
   WHERE LEFT (OrderDateKey, 4) IN (2013,2014) -- bringing only data of 2013 and 2014
 ```      
 ## Data model :   
-After the cleaning process we exported the results into csv files and imported them to power BI to create the star schema data model below   
+After the cleaning process we exported the results into csv files and imported them to power BI to create the star schema data model below      
+![screenshot](data_model.PNG)       
 
+## Measures :   
+For our dashboard we created a simple measure to calculate the  total sales amount over all rows in the context   
+ and for the top 10 customer  and the top 10 products we used the same DAX formula below       
+ ```   
+ Top 10 Customers = 
+    var customers=VALUES(DimCustomer[FullNAME])
+return 
+    CALCULATE(FactInternetSales[Sales],
+        TOPN(10,ALL(DimCustomer[FullNAME]),FactInternetSales[Sales]),
+        customers)
+```   
+
+## The final dahsboard :   
+The final one page sales management dashboard with a tooltip page created for the products chart meets the acceptance criteria, as you can see it shows sales over time, per customer and per product   
+![screenshot](final_dash.PNG)
     
 
 
